@@ -3,8 +3,8 @@
 # General Tasks
 
 ## Install Kubectl
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+- curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+- sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 ## Install Helm
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
@@ -44,25 +44,25 @@ https://k3d.io/
 wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
 ## Setup k3d cluster
-export HOSTIP=YOURHOSTIP
-k3d cluster create --k3s-arg "--tls-san=$HOSTIP"@server:* --k3s-arg "--no-deploy=traefik@server:*" --k3s-arg "--disable=traefik" minio-cluster --servers 3 --agents 3 -p "80:80@loadbalancer:*" -p "443:443@loadbalancer:*"
-k3d kubeconfig write minio-cluster
-cp ~/.k3d/kubeconfig-minio-cluster.yaml ~/.kube/config
+- export HOSTIP=YOURHOSTIP
+- k3d cluster create --k3s-arg "--tls-san=$HOSTIP"@server:* --k3s-arg "--no-deploy=traefik@server:*" --k3s-arg "--disable=traefik" minio-cluster --servers 3 --agents 3 -p "80:80@loadbalancer:*" -p "443:443@loadbalancer:*"
+- k3d kubeconfig write minio-cluster
+- cp ~/.k3d/kubeconfig-minio-cluster.yaml ~/.kube/config
 
 ## Setup k3d cluster with specific version
-export HOSTIP=YOURHOSTIP
-k3d cluster create --k3s-arg "--tls-san=$HOSTIP"@server:* --k3s-arg "--no-deploy=traefik@server:*" --image rancher/k3s:v1.23.3-k3s1 minio-cluster --servers 3 --agents 3 -p "80:80@loadbalancer:*" -p "443:443@loadbalancer:*" -v /data/k3d@agent:* -v /data/k3d:@server:*
-k3d kubeconfig write minio-cluster
-cp ~/.k3d/kubeconfig-minio-cluster.yaml ~/.kube/config
+- export HOSTIP=YOURHOSTIP
+- k3d cluster create --k3s-arg "--tls-san=$HOSTIP"@server:* --k3s-arg "--no-deploy=traefik@server:*" --image rancher/k3s:v1.23.3-k3s1 minio-cluster --servers 3 --agents 3 -p "80:80@loadbalancer:*" -p "443:443@loadbalancer:*" -v /data/k3d@agent:* -v /data/k3d:@server:*
+- k3d kubeconfig write minio-cluster
+- cp ~/.k3d/kubeconfig-minio-cluster.yaml ~/.kube/config
 
 
 ## Deploy k3d with local storage
-export HOSTIP=YOURHOSTIP
-mkdir -p /data/k3d
-chmod 0777 /data/k3d
-k3d cluster create --k3s-arg "--tls-san=$HOSTIP"@server:* --k3s-arg "--no-deploy=traefik@server:*" --image rancher/k3s:v1.23.3-k3s1 minio-cluster --servers 3 --agents 3 -p "80:80@loadbalancer:*" -p "443:443@loadbalancer:*" -v /data/k3d:/data/k3d@agent:* -v /data/k3d:/data/k3d@server:*
-k3d kubeconfig write minio-cluster
-cp ~/.k3d/kubeconfig-minio-cluster.yaml ~/.kube/config
+- export HOSTIP=YOURHOSTIP
+- mkdir -p /data/k3d
+- chmod 0777 /data/k3d
+- k3d cluster create --k3s-arg "--tls-san=$HOSTIP"@server:* --k3s-arg "--no-deploy=traefik@server:*" --image rancher/k3s:v1.23.3-k3s1 minio-cluster --servers 3 --agents 3 -p "80:80@loadbalancer:*" -p "443:443@loadbalancer:*" -v /data/k3d:/data/k3d@agent:* -v /data/k3d:/data/k3d@server:*
+- k3d kubeconfig write minio-cluster
+- cp ~/.k3d/kubeconfig-minio-cluster.yaml ~/.kube/config
 
 # delete cluster
 k3d cluster delete minio-cluster
